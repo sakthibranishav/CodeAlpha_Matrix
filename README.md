@@ -38,32 +38,6 @@ CodeAlpha_MatrixOperations
 └── README.md
 ```
 
----
-
-## How to Run
-
-1. Clone the repository.
-
-```
-git clone https://github.com/your-username/CodeAlpha_Matrix.git
-```
-
-2. Open the project in VS Code or any C IDE.
-
-3. Compile the program.
-
-```
-gcc matrix.c -o matrix
-```
-
-4. Run the executable.
-
-```
-./matrix
-```
-
----
-
 ## Menu
 
 ```
@@ -71,8 +45,9 @@ gcc matrix.c -o matrix
 
 1. Matrix Addition
 2. Matrix Multiplication
-3. Matrix Transpose
-4. Exit
+3. Matrix Subraction
+4. Matrix Transpose
+5. Exit
 ```
 
 ---
