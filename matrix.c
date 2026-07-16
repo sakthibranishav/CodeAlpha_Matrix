@@ -1,11 +1,10 @@
 #include <stdio.h>
-
 #define MAX 10
 
 void inputMatrix(int mat[MAX][MAX], int rows, int cols, const char *name);
 void displayMatrix(int mat[MAX][MAX], int rows, int cols, const char *name);
 void addMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int rows, int cols);
-void subtractMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int rows, int cols);
+void multiplyMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int rows, int cols);
 void transposeMatrix(int mat[MAX][MAX], int result[MAX][MAX], int rows, int cols);
 
 int main(void) {
@@ -31,7 +30,7 @@ int main(void) {
     do {
         printf("\n--- Matrix Menu ---\n");
         printf("1. Addition (needs Matrix B)\n");
-        printf("2. Subtraction (needs Matrix B)\n");
+        printf("2. Multiplication (needs Matrix B)\n");
         printf("3. Transpose (of Matrix A)\n");
         printf("4. Display Matrix A\n");
         printf("5. Exit\n");
@@ -44,30 +43,29 @@ int main(void) {
                 addMatrices(matA, matB, result, rows, cols);
                 displayMatrix(result, rows, cols, "Result (A + B)");
                 break;
-
             case 2:
-                inputMatrix(matB, rows, cols, "Matrix B");
-                subtractMatrices(matA, matB, result, rows, cols);
-                displayMatrix(result, rows, cols, "Result (A - B)");
+                if (rows != cols) {
+                    printf("[Error] Multiplication here requires square matrices (rows == cols),\n");
+                    printf("        since both matrices share the same %d x %d dimensions.\n", rows, cols);
+                } else {
+                    inputMatrix(matB, rows, cols, "Matrix B");
+                    multiplyMatrices(matA, matB, result, rows, cols);
+                    displayMatrix(result, rows, cols, "Result (A * B)");
+                }
                 break;
-
             case 3:
                 transposeMatrix(matA, result, rows, cols);
                 displayMatrix(result, cols, rows, "Transpose of A");
                 break;
-
             case 4:
                 displayMatrix(matA, rows, cols, "Matrix A");
                 break;
-
             case 5:
                 printf("\nExiting program. Goodbye!\n");
                 break;
-
             default:
                 printf("[Error] Invalid choice. Please enter 1-5.\n");
         }
-
     } while (choice != 5);
 
     return 0;
@@ -102,11 +100,16 @@ void addMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int row
             result[i][j] = a[i][j] + b[i][j];
 }
 
-/* Subtracts matrix b from matrix a element-wise */
-void subtractMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int rows, int cols) {
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            result[i][j] = a[i][j] - b[i][j];
+/* Multiplies two square matrices (standard matrix multiplication) */
+void multiplyMatrices(int a[MAX][MAX], int b[MAX][MAX], int result[MAX][MAX], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < cols; k++) {
+                result[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
 }
 
 /* Transposes a matrix (rows become columns) */
